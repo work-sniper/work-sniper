@@ -28,19 +28,69 @@
 
 <meta property="og:type" content="website" />
 
+	 <style>
+    /* تحديد نمط تقسيم الشاشة */
+    .split-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* تحديد سمات الإطار */
+    .frame {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+    }
+  </style>
 </head>
 <body style="background:white;">
             
          	  <center>
       <img src="img8.jpg" style="width:100%;height:220px;background:black;opacity: 0;"> </a>
 
-<a href="https://www.toprevenuegate.com/kahqms4rd?key=1a036088216230c0e44f71e819bd1e79">   <img src="img11.jpg" style="width:100%;height:55px;margin:0%;position:absolute;top:0%;left:0%;"></a>
+  <a href="javascript:void(0);" onclick="splitScreen()"> <img src="img11.jpg" style="width:100%;height:55px;margin:0%;position:absolute;top:0%;left:0%;"></a>
      <a href="https://www.toprevenuegate.com/kahqms4rd?key=1a036088216230c0e44f71e819bd1e79">   <img src="img16.jpg" style="width:100%;height:190px;position:absolute;top:11%;left:0%;"></a>
        <a href="https://www.toprevenuegate.com/kahqms4rd?key=1a036088216230c0e44f71e819bd1e79">      <img src="img12.jpg" style="width:100%;height:260px;margin-top:1%;left:0.5%;"></a>
 
 		  
 	 </center>
 
+<!-- تحديد الشاشة إلى 4 أقسام -->
+<div class="split-container" id="splitContainer">
+  <!-- إطار المحتوى الأول -->
+  <div id="frame1" class="frame"></div>
+  <!-- إطار المحتوى الثاني -->
+  <div id="frame2" class="frame"></div>
+  <!-- إطار المحتوى الثالث -->
+  <div id="frame3" class="frame"></div>
+  <!-- إطار المحتوى الرابع -->
+  <div id="frame4" class="frame"></div>
+</div>
 
+<script>
+function splitScreen() {
+  // الروابط التي تريد فتحها
+  var links = [
+    'https://www.toprevenuegate.com/kahqms4rd?key=1a036088216230c0e44f71e819bd1e79',
+    'https://www.toprevenuegate.com/sjphgy40?key=e0588c577af29dd9e75f59e3b637abf3',
+    'https://www.toprevenuegate.com/zkqbrfncui?key=b420e84a1af19dbea721fa55b5148e4d',
+    'https://example4.com'
+  ];
+
+  // قسم الشاشة إلى 4 أقسام
+  var splitContainer = document.getElementById('splitContainer');
+  splitContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
+  splitContainer.style.gridTemplateRows = 'repeat(2, 1fr)';
+
+  // عرض محتوى الروابط في كل إطار
+  for (var i = 0; i < links.length; i++) {
+    var frame = document.getElementById('frame' + (i + 1));
+    frame.innerHTML = '<iframe src="' + links[i] + '" width="100%" height="100%" frameborder="0"></iframe>';
+  }
+}
+</script>
    </body>
 </html>
