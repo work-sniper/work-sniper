@@ -105,8 +105,8 @@ function openLinks() {
 <script>
   var iframes = document.querySelectorAll('iframe');
   iframes.forEach(function(iframe) {
-    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
-  });
+  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-top-navigation');
+  });  
 </script>
 	      </body>
 </html>
