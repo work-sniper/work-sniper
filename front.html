@@ -102,6 +102,11 @@ function openLinks() {
 </script>
 
 
-
+<script>
+  var iframes = document.querySelectorAll('iframe');
+  iframes.forEach(function(iframe) {
+    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+  });
+</script>
 	      </body>
 </html>
