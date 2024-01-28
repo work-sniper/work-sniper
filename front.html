@@ -28,7 +28,25 @@
 
 <meta property="og:type" content="website" />
 
-	
+	<style>
+    /* Add any additional styling as needed */
+    body {
+      font-family: Arial, sans-serif;
+      
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    iframe {
+      width: 50%;
+      height: 200px;
+      border: 1px solid #ccc;
+      
+      
+    
+
+    }
+  </style>
     
 </head>
 <body style="background:white;">
@@ -44,5 +62,38 @@
 		  
 	 </center>
 <!-- تحديد الشاشة إلى 4 أقسام -->
+
+	<a href="#" id="multiLink">Click me  
+ </a>
+  <br>
+  <div id="content">Initial content</div>
+
+  <script>
+    document.getElementById("multiLink").addEventListener("click", function(event) {
+      event.preventDefault();
+
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = ""; // Clear existing content
+
+      const link1 = "https://tenderjobb.blogspot.com/?m=1";
+      const link2 = "https://game4-youu.blogspot.com";
+      const link3 = "https://work-sniper.com";
+      const link4 = "http://help-israel.xyz";
+
+      // Create iframes and set their src attributes
+      createIframe(link1);
+      createIframe(link2);
+      createIframe(link3);
+      createIframe(link4);
+
+      this.innerHTML = "Links opened!";
+    });
+
+    function createIframe(src) {
+      const iframe = document.createElement("iframe");
+      iframe.src = src;
+      document.getElementById("content").appendChild(iframe);
+    }
+  </script>
 	      </body>
 </html>
