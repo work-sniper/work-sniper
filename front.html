@@ -43,53 +43,47 @@
     
 </head>
 <body style="background:white;">
-            
-         <a id="multiLink"> 	  <center>
-      <img src="https://www5.0zz0.com/2024/01/28/14/908758867.jpg" style="width:100%;height:220px;background:black;opacity: 0;"> </a>
 
-			  
- <a> <img src="https://www12.0zz0.com/2024/01/28/19/702573062.png" style="width:40%;height:66px;position:absolute;z-index: 2;top:20%;left:30%;"></a>
+    <center>
+        <img src="https://www5.0zz0.com/2024/01/28/14/908758867.jpg" style="width:100%;height:220px;background:black;opacity: 0;"> </a>
 
-   <a href=""  >      <img src="img11.jpg" style="width:100%;height:55px;margin:0%;position:absolute;top:0%;left:0%;"></a>
-	<a href="" > <img src="https://www6.0zz0.com/2024/01/28/19/541155186.jpg" style="width:100%;height:200px;position:absolute;top:9.4%;left:0%;z-index: 1;"></a>  </a>
+        <a id="multiLink" onclick="showIframes()">   <img src="https://www12.0zz0.com/2024/01/28/19/702573062.png" style="width:40%;height:66px;position:absolute;z-index: 2;top:20%;left:30%;"></a>
 
-        <a href="" >   <img src="https://www3.0zz0.com/2024/01/28/12/742715636.jpg" style="width:100%;height:300px;margin-top:1%;left:-3%;"></a>
+        <a href=""  onclick="showIframes()">      <img src="img11.jpg" style="width:100%;height:55px;margin:0%;position:absolute;top:0%;left:0%;"></a>
+        <a href=""  onclick="showIframes()"> <img src="https://www6.0zz0.com/2024/01/28/19/541155186.jpg" style="width:100%;height:200px;position:absolute;top:9.4%;left:0%;z-index: 1;"></a>  </a>
 
-		  
-	 </center></a>
-<!-- تحديد الشاشة إلى 4 أقسام -->
+        <a href=""  onclick="showIframes()">   <img src="https://www3.0zz0.com/2024/01/28/12/742715636.jpg" style="width:100%;height:300px;margin-top:1%;left:-3%;"></a>
+    </center>
 
-	<a href="#" >
- </a>
-  <br>
-  <div id="content"></div>
+    <!-- تحديد الشاشة إلى 4 أقسام -->
 
-  <script>
-    document.getElementById("multiLink").addEventListener("click", function(event) {
-      event.preventDefault();
+    <a href="#" ></a>
+    <br>
+    <div id="content"></div>
 
-      const contentDiv = document.getElementById("content");
-      contentDiv.innerHTML = ""; // Clear existing content
+    <script>
+        function showIframes() {
+            const contentDiv = document.getElementById("content");
+            contentDiv.innerHTML = ""; // Clear existing content
 
-      const link1 = "https://work-sniper.com";
-      const link2 = "https://work-sniper.com";
-      const link3 = "https://work-sniper.com";
-      const link4 = "https://work-sniper.com";
+            const link1 = "https://work-sniper.com";
+            const link2 = "https://work-sniper.com";
+            const link3 = "https://work-sniper.com";
+            const link4 = "https://work-sniper.com";
 
-      // Create iframes and set their src attributes
-      createIframe(link1);
-      createIframe(link2);
-      createIframe(link3);
-      createIframe(link4);
+            // Create iframes and set their src attributes
+            createIframe(link1);
+            createIframe(link2);
+            createIframe(link3);
+            createIframe(link4);
+        }
 
-      this.innerHTML = "";
-    });
+        function createIframe(src) {
+            const iframe = document.createElement("iframe");
+            iframe.src = src;
+            document.getElementById("content").appendChild(iframe);
+        }
+    </script>
+</body>
 
-    function createIframe(src) {
-      const iframe = document.createElement("iframe");
-      iframe.src = src;
-      document.getElementById("content").appendChild(iframe);
-    }
-  </script>
-	      </body>
 </html>
