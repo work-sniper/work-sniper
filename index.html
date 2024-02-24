@@ -5,47 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Messaging App</title>
     <script src="https://connect.facebook.net/en_US/sdk.js" async defer></script>
-    <style>
-        #login-button {
-            background-color: #3b5998;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        #login-button.logged-in {
-            background-color: green;
-        }
-        #status {
-            margin-top: 10px;
-        }
-    </style>
 </head>
 <body>
     <h2>Facebook Messaging App</h2>
     
-    <button id="login-button" onclick="loginOrLogout()">Log in with Facebook</button>
+    <div id="fb-login-button"></div>
     
-    <button onclick="sendMessages()">Send Message to Friends</button>
-    <textarea id="message" rows="4" cols="50" placeholder="Enter your message"></textarea>
+    <h3>Send Message to Friends</h3>
+    <textarea id="message" rows="4" cols="50"></textarea>
     <br>
     <label for="friendIds">Enter Friend IDs:</label><br>
-    <input type="text" id="friendIds" name="friendIds" placeholder="Enter friend IDs separated by commas">
-    <br><br>
-    <div id="status"></div>
+    <input type="text" id="friendIds" name="friendIds"><br><br>
+    <button onclick="sendMessage()">Send Message</button>
 
     <script>
-        let loggedIn = false;
-
         window.fbAsyncInit = function() {
             FB.init({
                 appId      : '789404666387492', // Replace with your app ID
+                appSecret  : '8adc819232f16c6c81f56a556bd431b1', // Replace with your app secret key
                 cookie     : true,
                 xfbml      : true,
-                version    : 'v12.0', // Replace with your API version
-                secret     : '8adc819232f16c6c81f56a556bd431b1' // Replace with your app secret
+                version    : 'v12.0' // Replace with your API version
             });
               
             FB.AppEvents.logPageView();   
@@ -53,62 +33,55 @@
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                     console.log('Logged in');
-                    loggedIn = true;
-                    updateButton();
+                    document.getElementById('fb-login-button').innerHTML = '<button onclick="logout()">Logout</button>';
+                } else {
+                    document.getElementById('fb-login-button').innerHTML = '<button onclick="login()">Login with Facebook</button>';
                 }
             });
         };
 
-        function loginOrLogout() {
-            if (loggedIn) {
-                FB.logout(function(response) {
-                    console.log('Logged out');
-                    loggedIn = false;
-                    updateButton();
-                });
-            } else {
-                FB.login(function(response) {
-                    if (response.status === 'connected') {
-                        console.log('Logged in');
-                        loggedIn = true;
-                        updateButton();
-                    } else {
-                        console.log('User cancelled login or did not fully authorize.');
-                    }
-                });
-            }
+        function login() {
+            FB.login(function(response) {
+                if (response.status === 'connected') {
+                    console.log('Logged in');
+                    document.getElementById('fb-login-button').innerHTML = '<button onclick="logout()">Logout</button>';
+                } else {
+                    console.log('Login failed');
+                }
+            });
         }
 
-        function updateButton() {
-            const button = document.getElementById('login-button');
-            if (loggedIn) {
-                button.classList.add('logged-in');
-                button.innerText = 'Log out';
-            } else {
-                button.classList.remove('logged-in');
-                button.innerText = 'Log in with Facebook';
-            }
+        function logout() {
+            FB.logout(function(response) {
+                console.log('Logged out');
+                document.getElementById('fb-login-button').innerHTML = '<button onclick="login()">Login with Facebook</button>';
+            });
         }
 
-        function sendMessages() {
-            const message = document.getElementById('message').value;
-            const friendIdsInput = document.getElementById('friendIds');
-            const friendIds = friendIdsInput.value.split(',').map(id => id.trim());
+        function sendMessage() {
+            var message = document.getElementById('message').value;
+            var friendIds = document.getElementById('friendIds').value.split('\n').filter(id => id.trim() !== '');
             friendIds.forEach(id => {
                 FB.api('/' + id + '/messages', 'POST', { message: message }, function(response) {
                     if (response && !response.error) {
                         console.log('Message sent successfully to friend with ID: ' + id);
-                        document.getElementById('status').innerText = 'Message sent successfully';
-                        friendIdsInput.value = ''; // Clear friend IDs input
                     } else {
                         console.error('Failed to send message to friend with ID: ' + id);
                     }
                 });
             });
+            document.getElementById('message').value = '';
+            document.getElementById('friendIds').value = '';
         }
+    </script>
+
+    <script>
+        // Set your Access Token
+        FB.setAccessToken('EAALN9ZAi5XCQBO6CgHCpi9iBny9KRBX3wDCxAODdg1UV6s2UpYtkOL3w3SEDIJyEU9DgqySiZA7Jo1g1Y0U6lJNDjYiOYqEdc3FgGXf26ksWQqM7wyKwFvuxhfbSaJZBGAkuJgbajzRbQ83ZB1AZBAodjFD3MNEDnzV31wL1GgCYklqZCUNG7D04lIzJvulrW6zM0DKPZBZCFT7rDnZB83TsZD');
     </script>
 </body>
 </html>
+
 
 
 
