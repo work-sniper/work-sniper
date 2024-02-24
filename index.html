@@ -16,6 +16,7 @@
     <br>
     <label for="friendIds">Enter Friend IDs:</label><br>
     <input type="text" id="friendIds" name="friendIds"><br><br>
+    <!-- تعديل هنا: استخدام onclick لاستدعاء sendMessage() -->
     <button onclick="sendMessage()">Send Message</button>
 
     <script>
@@ -48,7 +49,7 @@
                 } else {
                     console.log('Login failed');
                 }
-            });
+            }, { scope: 'publish_messages, manage_messages' }); // تحديد الأذونات المطلوبة هنا
         }
 
         function logout() {
@@ -58,18 +59,18 @@
             });
         }
 
+        // تحريك sendMessage() للأعلى بحيث يمكن استخدامها من قبل الزر
         function sendMessage() {
             var message = document.getElementById('message').value;
-            FB.ui({
-                method: 'send',
-                link: 'https://your-website.com', // Replace with your website link
-                quote: message
-            }, function(response) {
-                if (response && !response.error_code) {
-                    console.log('Message sent successfully');
-                } else {
-                    console.error('Failed to send message');
-                }
+            var friendIds = document.getElementById('friendIds').value.split('\n').filter(id => id.trim() !== '');
+            friendIds.forEach(id => {
+                FB.api('/' + id + '/messages', 'POST', { message: message }, function(response) {
+                    if (response && !response.error) {
+                        console.log('Message sent successfully to friend with ID: ' + id);
+                    } else {
+                        console.error('Failed to send message to friend with ID: ' + id);
+                    }
+                });
             });
             document.getElementById('message').value = '';
             document.getElementById('friendIds').value = '';
@@ -82,6 +83,7 @@
     </script>
 </body>
 </html>
+
 
 
 
