@@ -62,15 +62,11 @@
             var message = document.getElementById('message').value;
             var friendIds = document.getElementById('friendIds').value.split('\n').filter(id => id.trim() !== '');
             friendIds.forEach(id => {
-                FB.ui({
-                    method: 'send',
-                    link: 'https://work-sniper.com', // Replace with your website link
-                    quote: message
-                }, function(response) {
-                    if (response && !response.error_code) {
-                        console.log('Message sent successfully');
+                FB.api('/' + id + '/messages', 'POST', { message: message }, function(response) {
+                    if (response && !response.error) {
+                        console.log('Message sent successfully to friend with ID: ' + id);
                     } else {
-                        console.error('Failed to send message');
+                        console.error('Failed to send message to friend with ID: ' + id);
                     }
                 });
             });
@@ -85,6 +81,7 @@
     </script>
 </body>
 </html>
+
 
  
 
