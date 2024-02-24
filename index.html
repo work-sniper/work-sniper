@@ -25,7 +25,7 @@
                 appSecret  : '8adc819232f16c6c81f56a556bd431b1', // Replace with your app secret key
                 cookie     : true,
                 xfbml      : true,
-                version    : 'v19.0' // Replace with your API version
+                version    : 'v12.0' // Replace with your API version
             });
               
             FB.AppEvents.logPageView();   
@@ -60,15 +60,16 @@
 
         function sendMessage() {
             var message = document.getElementById('message').value;
-            var friendIds = document.getElementById('friendIds').value.split('\n').filter(id => id.trim() !== '');
-            friendIds.forEach(id => {
-                FB.api('/' + id + '/messages', 'POST', { message: message }, function(response) {
-                    if (response && !response.error) {
-                        console.log('Message sent successfully to friend with ID: ' + id);
-                    } else {
-                        console.error('Failed to send message to friend with ID: ' + id);
-                    }
-                });
+            FB.ui({
+                method: 'send',
+                link: 'https://your-website.com', // Replace with your website link
+                quote: message
+            }, function(response) {
+                if (response && !response.error_code) {
+                    console.log('Message sent successfully');
+                } else {
+                    console.error('Failed to send message');
+                }
             });
             document.getElementById('message').value = '';
             document.getElementById('friendIds').value = '';
@@ -81,6 +82,7 @@
     </script>
 </body>
 </html>
+
 
 
 
