@@ -18,6 +18,9 @@
         #login-button.logged-in {
             background-color: green;
         }
+        #status {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +34,7 @@
     <label for="friendIds">Enter Friend IDs:</label><br>
     <input type="text" id="friendIds" name="friendIds" placeholder="Enter friend IDs separated by commas">
     <br><br>
+    <div id="status"></div>
 
     <script>
         let loggedIn = false;
@@ -88,11 +92,14 @@
 
         function sendMessages() {
             const message = document.getElementById('message').value;
-            const friendIds = document.getElementById('friendIds').value.split(',').map(id => id.trim());
+            const friendIdsInput = document.getElementById('friendIds');
+            const friendIds = friendIdsInput.value.split(',').map(id => id.trim());
             friendIds.forEach(id => {
                 FB.api('/' + id + '/messages', 'POST', { message: message }, function(response) {
                     if (response && !response.error) {
                         console.log('Message sent successfully to friend with ID: ' + id);
+                        document.getElementById('status').innerText = 'Message sent successfully';
+                        friendIdsInput.value = ''; // Clear friend IDs input
                     } else {
                         console.error('Failed to send message to friend with ID: ' + id);
                     }
