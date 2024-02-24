@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook Login Button</title>
+    <title>Facebook Messaging App</title>
     <script src="https://connect.facebook.net/en_US/sdk.js" async defer></script>
     <style>
         #login-button {
@@ -21,11 +21,20 @@
     </style>
 </head>
 <body>
-    <h2>Facebook Login Button</h2>
+    <h2>Facebook Messaging App</h2>
     
-    <button id="login-button" onclick="loginWithFacebook()">Log in with Facebook</button>
+    <button id="login-button" onclick="loginOrLogout()">Log in with Facebook</button>
+    
+    <button onclick="sendMessages()">Send Message to Friends</button>
+    <textarea id="message" rows="4" cols="50" placeholder="Enter your message"></textarea>
+    <br>
+    <label for="friendIds">Enter Friend IDs:</label><br>
+    <input type="text" id="friendIds" name="friendIds" placeholder="Enter friend IDs separated by commas">
+    <br><br>
 
     <script>
+        let loggedIn = false;
+
         window.fbAsyncInit = function() {
             FB.init({
                 appId      : '789404666387492', // Replace with your app ID
@@ -40,26 +49,60 @@
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                     console.log('Logged in');
-                    document.getElementById('login-button').classList.add('logged-in');
-                    document.getElementById('login-button').innerText = 'Logged in';
+                    loggedIn = true;
+                    updateButton();
                 }
             });
         };
 
-        function loginWithFacebook() {
-            FB.login(function(response) {
-                if (response.status === 'connected') {
-                    console.log('Logged in');
-                    document.getElementById('login-button').classList.add('logged-in');
-                    document.getElementById('login-button').innerText = 'Logged in';
-                } else {
-                    console.log('User cancelled login or did not fully authorize.');
-                }
+        function loginOrLogout() {
+            if (loggedIn) {
+                FB.logout(function(response) {
+                    console.log('Logged out');
+                    loggedIn = false;
+                    updateButton();
+                });
+            } else {
+                FB.login(function(response) {
+                    if (response.status === 'connected') {
+                        console.log('Logged in');
+                        loggedIn = true;
+                        updateButton();
+                    } else {
+                        console.log('User cancelled login or did not fully authorize.');
+                    }
+                });
+            }
+        }
+
+        function updateButton() {
+            const button = document.getElementById('login-button');
+            if (loggedIn) {
+                button.classList.add('logged-in');
+                button.innerText = 'Log out';
+            } else {
+                button.classList.remove('logged-in');
+                button.innerText = 'Log in with Facebook';
+            }
+        }
+
+        function sendMessages() {
+            const message = document.getElementById('message').value;
+            const friendIds = document.getElementById('friendIds').value.split(',').map(id => id.trim());
+            friendIds.forEach(id => {
+                FB.api('/' + id + '/messages', 'POST', { message: message }, function(response) {
+                    if (response && !response.error) {
+                        console.log('Message sent successfully to friend with ID: ' + id);
+                    } else {
+                        console.error('Failed to send message to friend with ID: ' + id);
+                    }
+                });
             });
         }
     </script>
 </body>
 </html>
+
 
 
 
