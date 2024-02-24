@@ -1,71 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Facebook Message Sender</title>
-<script src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Messaging App</title>
+    <script src="https://connect.facebook.net/en_US/sdk.js" async defer></script>
 </head>
 <body>
+    <h2>Facebook Messaging App</h2>
+    
+    <div id="fb-login-button"></div>
+    
+    <h3>Send Message to Friends</h3>
+    <textarea id="message" rows="4" cols="50"></textarea>
+    <br>
+    <button onclick="sendMessage()">Send Message</button>
 
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId: '789404666387492',
-      cookie: true,
-      xfbml: true,
-      version: 'v12.0'
-    });
-      
-    FB.AppEvents.logPageView();   
-  };
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '789404666387492', // Replace with your app ID
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v12.0' // Replace with your API version
+            });
+              
+            FB.AppEvents.logPageView();   
+              
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    console.log('Logged in');
+                } else {
+                    FB.login();
+                }
+            });
+        };
 
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-  function statusChangeCallback(response) {
-    if (response.status === 'connected') {
-      console.log('Logged in and authenticated');
-    } else {
-      console.log('Not authenticated');
-    }
-  }
-
-  function sendMessage() {
-    FB.getLoginStatus(function(response) {
-      if (response.status === 'connected') {
-        var accessToken = response.authResponse.accessToken;
-        var friendID = document.getElementById('friendID').value;
-        var message = document.getElementById('message').value;
-        
-        FB.api('/' + friendID + '/messages', 'POST', {
-          access_token: accessToken,
-          message: message
-        }, function(response) {
-          console.log(response);
-        });
-      } else {
-        console.log('User not logged in.');
-      }
-    });
-  }
-</script>
-
-<h2>Login with Facebook</h2>
-<div class="fb-login-button" data-scope="public_profile,email" onlogin="checkLoginState();"></div>
-
-<h2>Send Message to Friend</h2>
-<label for="friendID">Friend ID:</label>
-<input type="text" id="friendID"><br>
-<label for="message">Message:</label>
-<textarea id="message"></textarea><br>
-<button onclick="sendMessage()">Send Message</button>
-
+        function sendMessage() {
+            var message = document.getElementById('message').value;
+            // Replace 'friend_id' with your friend's ID
+            FB.api('/{friend_id}/messages', 'POST', { message: message }, function(response) {
+                if (response && !response.error) {
+                    console.log('Message sent successfully');
+                } else {
+                    console.error('Failed to send message');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
+
 
 
 
